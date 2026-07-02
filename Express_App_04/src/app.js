@@ -16,7 +16,11 @@ app.post("/create-post", upload.single("imageUrl"), async (req, res) => {
     }
 
     const result = await uploadToCloudinary(req.file.buffer);
-    console.log(result);
+
+    await postModel.create({
+      imageUrl: result.url,
+      imageCaption: req.body.imageCaption,
+    });
 
     return res.status(201).json({
       success: true,

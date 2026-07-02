@@ -6,6 +6,7 @@ const uploadToCloudinary = (buffer) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         folder: "Express_App_04",
+        resource_type: "auto",
       },
       (error, result) => {
         if (error) {
