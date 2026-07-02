@@ -2,6 +2,7 @@ import express, { json } from "express";
 import postModel from "./models/post.model.js";
 import multer, { memoryStorage } from "multer";
 import uploadToCloudinary from "./utils/uploadToCloudinary.js";
+import { model } from "mongoose";
 
 const app = express();
 const upload = multer({ storage: memoryStorage() });
@@ -38,5 +39,15 @@ app.post("/create-post", upload.single("imageUrl"), async (req, res) => {
     });
   }
 });
+
+app.get("/posts", async (req,res)=>{
+    const posts = await postModel.find()
+
+    res.status(200).json({
+      success: true,
+      message: "Posts Fetched Successfully",
+      posts: posts
+    })
+})
 
 export default app;
