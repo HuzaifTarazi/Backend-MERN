@@ -1,15 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 const CreatePosts = () => {
+  const [input, setInput] = useState("");
+
+  const handleSubmission = (e) => {
+    e.preventDefault();
+  };
   return (
     <div className=" flex items-center justify-center px-4 py-10">
-      <form className="w-full max-w-md rounded-xl bg-white p-8 shadow-xl ">
-        <h2 className="text-2xl font-semibold text-slate-900 mb-6 text-center">Create a Post</h2>
+      <form
+        onSubmit={handleSubmission}
+        className="w-full max-w-md rounded-xl bg-white p-8 shadow-xl"
+      >
+        <h2 className="text-2xl font-semibold text-slate-900 mb-6 text-center">
+          Create a Post
+        </h2>
         <div className="mb-5 ">
-          <label className="block text-sm font-medium text-slate-700 mb-2" htmlFor="caption">
+          <label
+            className="block text-sm font-medium text-slate-700 mb-2"
+            htmlFor="caption"
+          >
             Caption
           </label>
           <input
+            value={input}
+            onChange={(e) => {
+              setInput(e.target.value);
+            }}
             id="caption"
             type="text"
             placeholder="Enter caption"
@@ -18,7 +35,10 @@ const CreatePosts = () => {
         </div>
 
         <div className="mb-6">
-          <label className="block text-sm font-medium text-slate-700 mb-2" htmlFor="file">
+          <label
+            className="block text-sm font-medium text-slate-700 mb-2"
+            htmlFor="file"
+          >
             Select file
           </label>
           <input
@@ -36,7 +56,7 @@ const CreatePosts = () => {
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default CreatePosts
+export default CreatePosts;
