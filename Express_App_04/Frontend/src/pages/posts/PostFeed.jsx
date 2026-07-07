@@ -8,12 +8,11 @@ const PostFeed = () => {
     const controller = new AbortController();
     const getApi = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/posts", {
+        const response = await axios.get("http://localhost:3000/posts-feed", {
           signal: controller.signal,
         });
 
         setPosts(response.data.posts);
-        console.log(response.data.posts)
       } catch (err) {
         console.error(err);
       }
