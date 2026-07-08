@@ -1,10 +1,22 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 
 const CreatePosts = () => {
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmission = (e) => {
+  const handleSubmission = async (e) => {
     e.preventDefault();
+    const formData = new FormData(e.target);
+    setLoading(true);
+    try {
+      await axios.post("http://localhost:3000/create-post", formData);
+    } finally {
+      setLoading(false);
+      navigate("../posts-feed")
+    }
   };
   return (
     <div className=" flex items-center justify-center px-4 py-10">
@@ -29,6 +41,7 @@ const CreatePosts = () => {
             }}
             id="caption"
             type="text"
+            name="imageCaption"
             placeholder="Enter caption"
             className="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
           />
@@ -43,6 +56,7 @@ const CreatePosts = () => {
           </label>
           <input
             id="file"
+            name="imageUrl"
             type="file"
             className="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-700 file:rounded-full file:border-0 file:bg-indigo-600 file:px-4 file:py-2 file:text-white file:transition file:hover:bg-indigo-700"
           />
@@ -50,9 +64,10 @@ const CreatePosts = () => {
 
         <button
           type="submit"
-          className="w-full rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg transition-transform duration-200 hover:-translate-y-1 hover:bg-indigo-700 hover:shadow-2xl"
+          disabled={loading}
+          className="w-full rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg transition-transform duration-200 hover:-translate-y-1 hover:bg-indigo-700 hover:shadow-2xl disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Post
+          {loading ? "Posting..." : "Post"}
         </button>
       </form>
     </div>

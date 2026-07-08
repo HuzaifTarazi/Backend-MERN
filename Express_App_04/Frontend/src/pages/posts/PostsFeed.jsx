@@ -3,7 +3,11 @@ import axios from "axios";
 
 const PostFeed = () => {
   const [posts, setPosts] = useState([]);
-  
+
+  const DeletePost = async (id) => {
+    await axios.delete(`http://localhost:3000/delete-post/${id}`);
+  };
+
   useEffect(() => {
     const controller = new AbortController();
     const getApi = async () => {
@@ -13,16 +17,14 @@ const PostFeed = () => {
         });
 
         setPosts(response.data.posts);
-      } catch (err) {
-        console.error(err);
-      }
+      } catch (err) {}
     };
     getApi();
 
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [DeletePost]);
 
   return (
     <>
@@ -46,6 +48,13 @@ const PostFeed = () => {
                 <p className="text-gray-800 text-base leading-relaxed">
                   {post.imageCaption}
                 </p>
+                <button
+                  type="button"
+                  onClick={() => DeletePost(post._id)}
+                  className="mt-4 inline-flex items-center px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors duration-200"
+                >
+                  Delete
+                </button>
               </div>
             </div>
           ))}

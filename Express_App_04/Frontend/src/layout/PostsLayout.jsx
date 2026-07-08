@@ -15,7 +15,7 @@ const PostsLayout = () => {
             </p>
           </div>
         </Link>
-        <Link to={"post-feed"}>
+        <Link to={"posts-feed"}>
           <div className="rounded-lg border border-white/20 bg-white/5 p-6 hover:bg-gray-800 active:bg-gray-900">
             <h2 className="text-xl font-semibold mb-3">Post Feed</h2>
             <p className="text-sm text-white/70">
