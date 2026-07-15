@@ -5,6 +5,6 @@ const postSchema = mongoose.Schema({
   imageCaption: String,
 });
 
-const postModel = mongoose.model("post", postSchema);
+const postModel = new mongoose.model("post", postSchema);
 
 export default postModel;
