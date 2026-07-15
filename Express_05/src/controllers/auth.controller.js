@@ -14,7 +14,7 @@ const registerUser = async (req, res) => {
     algorithm: "HS256",
   });
 
-  res.cookie;
+  res.cookie("token", token);
 
   res.status(201).json({
     message: "Data Posted Successfully...",
