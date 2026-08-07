@@ -16,6 +16,6 @@ app.use(cookieParser());
 app.use("/api/auth/", authRoutes);
 
 //Music Creation
-app.use("/api/music", musicRoutes);
+app.use("/api/music/", musicRoutes);
 
 export default app;

@@ -1,8 +1,6 @@
 import musicModel from "../models/music.model.js";
 import jwt from "jsonwebtoken";
 
-
-
 const createMusic = async (req, res) => {
   const token = req.cookies.token;
 
@@ -22,12 +20,11 @@ const createMusic = async (req, res) => {
     console.error(err);
   }
 
-  const title = req.body;
+  const title = req.body
+  const Music_Name = req.file.originalname;
   const file = req.file;
 
-  
-
-  
+  console.log(file);
 };
 
 export default { createMusic };

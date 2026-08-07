@@ -6,6 +6,7 @@ import cors from "cors";
 import { model } from "mongoose";
 
 const app = express();
+
 app.use(cors());
 const upload = multer({ storage: memoryStorage() });
 
