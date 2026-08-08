@@ -1,4 +1,5 @@
 import musicModel from "../models/music.model.js";
+import uploadMusic from "../utils/cloudinaryUploader.js";
 import jwt from "jsonwebtoken";
 
 const createMusic = async (req, res) => {
@@ -10,21 +11,36 @@ const createMusic = async (req, res) => {
 
   try {
     const tokenVerification = jwt.verify(token, process.env.JWT_SECRET);
-
+    
     if (tokenVerification.role !== "artist") {
       return res
         .status(403)
         .json({ message: "Don't have access to create music" });
     }
+
+    const MusicName = req.file.originalname;
+    const file = req.file.buffer;
+
+    const cloudUpload = await uploadMusic(file);
+
+    const musicDBStorage = await musicModel.create({
+      uri: cloudUpload.url,
+      title: MusicName,
+      artist: tokenVerification.id,
+    });
+
+    res.status(201).json({
+      message: "Music Upload Successfully..!",
+      music: {
+        id: musicDBStorage.artist,
+        uri: musicDBStorage.uri,
+        title: musicDBStorage.title,
+      },
+    });
+
   } catch (err) {
     console.error(err);
   }
-
-  const title = req.body
-  const Music_Name = req.file.originalname;
-  const file = req.file;
-
-  console.log(file);
 };
 
 export default { createMusic };
