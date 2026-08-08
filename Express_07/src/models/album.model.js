@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const albumSchema = mongoose.Schema({
+const albumSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -8,7 +8,7 @@ const albumSchema = mongoose.Schema({
   music: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "music",
+      ref: "musics",
       required: true,
     },
   ],

@@ -12,4 +12,5 @@ router.post(
   musicControllers.createMusic,
 );
 
+router.post("/album/create", musicControllers.createAlbum);
 export default router;

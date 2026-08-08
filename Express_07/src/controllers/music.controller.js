@@ -1,4 +1,5 @@
 import musicModel from "../models/music.model.js";
+import albumModel from "../models/album.model.js";
 import uploadMusic from "../utils/cloudinaryUploader.js";
 import jwt from "jsonwebtoken";
 
@@ -11,7 +12,7 @@ const createMusic = async (req, res) => {
 
   try {
     const tokenVerification = jwt.verify(token, process.env.JWT_SECRET);
-    
+
     if (tokenVerification.role !== "artist") {
       return res
         .status(403)
@@ -37,10 +38,46 @@ const createMusic = async (req, res) => {
         title: musicDBStorage.title,
       },
     });
-
   } catch (err) {
     console.error(err);
   }
 };
 
-export default { createMusic };
+const createAlbum = async (req, res) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized access..!" });
+  }
+  try {
+    const tokenVerification = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (tokenVerification.role !== "artist") {
+      return res
+        .status(403)
+        .json({ message: "You don't have access to create album..!" });
+    }
+
+    const { title, musicId } = req.body;
+
+    const albumDBStorage = await albumModel.create({
+      title: title,
+      music: musicId,
+      artist: tokenVerification.id,
+    });
+
+    res.status(201).json({
+      message: "Album Created Successfully...!",
+      album: {
+        id: albumDBStorage._id,
+        title: albumDBStorage.title,
+        musics: albumDBStorage.music,
+        artist: albumDBStorage.artist,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export default { createMusic, createAlbum };
