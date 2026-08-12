@@ -17,10 +17,15 @@ router.post(
 
 router.post(
   "/album/create",
-  authMiddleware.authArtist,
+  musicAuthMiddleware.authAlbum,
   musicControllers.createAlbum,
 );
 
 router.get("/fetch", musicAuthMiddleware.authMusic, musicControllers.getMusics);
+router.get(
+  "/fetch/album",
+  musicAuthMiddleware.authMusic,
+  musicControllers.getAlbum,
+);
 
 export default router;

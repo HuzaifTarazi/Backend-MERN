@@ -27,10 +27,10 @@ const createMusic = async (req, res) => {
 
 const createAlbum = async (req, res) => {
   const { title, musicId } = req.body;
-
+  console.log(musicId)
   const albumDBStorage = await albumModel.create({
     title: title,
-    music: musicId,
+    musicId: musicId, 
     artist: req.user.id,
   });
 
@@ -39,20 +39,27 @@ const createAlbum = async (req, res) => {
     album: {
       id: albumDBStorage._id,
       title: albumDBStorage.title,
-      musics: albumDBStorage.music,
+      music: albumDBStorage.musicId,
       artist: albumDBStorage.artist,
     },
   });
 };
 
 const getMusics = async (req, res) => {
+  const musics = await musicModel.find().populate("artist", "username email");
 
-  const musics = await musicModel.find().populate("artist", "username email")
-
-  res.status(200).json({ 
-    message: "Musics Fetched Successfully..!", 
-    musicDB: musics 
+  res.status(200).json({
+    message: "Musics Fetched Successfully..!",
+    musicDB: musics,
   });
-
 };
-export default { createMusic, createAlbum, getMusics };
+
+const getAlbum = async (req, res) => {
+  const album = await albumModel.find().populate("artist", "username email");
+
+  res
+    .status(200)
+    .json({ message: "Album Fetched Successfully..!", albumDB: album });
+};
+
+export default { createMusic, createAlbum, getMusics , getAlbum};

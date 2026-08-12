@@ -15,12 +15,14 @@ const authArtist = async (req, res, next) => {
         .status(403)
         .json({ message: "Don't have access to create music" });
     }
-    req.user = tokenVerification
+    req.user = tokenVerification;
     next();
   } catch (err) {
     console.error(err);
     return res.status(401).json({ message: "UnAuthorized...!" });
   }
 };
+
+
 
 export default { authArtist };

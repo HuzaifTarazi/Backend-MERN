@@ -5,7 +5,7 @@ const albumSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  music: [
+  musicId: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "musics",
@@ -19,6 +19,6 @@ const albumSchema = new mongoose.Schema({
   },
 });
 
-const albumModel = mongoose.model("album", albumSchema);
+const albumModel = mongoose.model("albums", albumSchema);
 
 export default albumModel;
