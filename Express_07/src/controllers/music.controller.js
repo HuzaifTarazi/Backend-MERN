@@ -45,4 +45,14 @@ const createAlbum = async (req, res) => {
   });
 };
 
-export default { createMusic, createAlbum };
+const getMusics = async (req, res) => {
+
+  const musics = await musicModel.find().populate("artist", "username email")
+
+  res.status(200).json({ 
+    message: "Musics Fetched Successfully..!", 
+    musicDB: musics 
+  });
+
+};
+export default { createMusic, createAlbum, getMusics };
