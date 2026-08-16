@@ -28,4 +28,6 @@ router.get(
   musicControllers.getAlbum,
 );
 
+router.get("/fetch/:id", musicAuthMiddleware.authMusic, musicControllers.getAlbumById)
+
 export default router;
