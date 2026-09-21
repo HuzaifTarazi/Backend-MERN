@@ -1,10 +1,11 @@
 import userModel from "../models/user.model.js";
+import bcrypt from "bcrypt";
 
 const register = async (req, res) => {
   const { username, email, password } = req.body;
 
   const isUserAlreadyExist = await userModel.findOne({
-    $or: [{ username }, { password }],
+    $or: [{ username }, { email }],
   });
 
   if (isUserAlreadyExist) {
@@ -25,13 +26,15 @@ const register = async (req, res) => {
     }
   }
 
-  await userModel.create({
+  const passwordHashed = await bcrypt.hash(password, 15);
+
+  const userData = await userModel.create({
     username: username,
     email: email,
-    password: password,
+    password: passwordHashed,
   });
 
-  res.status(201).json({ message: "user created Successfully." });
+  res.status(201).json({ message: "user created Successfully.", userData });
 };
 
 export default { register };
