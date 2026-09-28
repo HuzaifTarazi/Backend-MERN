@@ -33,6 +33,7 @@ const register = async (req, res) => {
     username: username,
     email: email,
     password: passwordHashed,
+
     
   });
 
